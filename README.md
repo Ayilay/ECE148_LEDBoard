@@ -3,7 +3,9 @@
 A PCB that arranges WS2812b individually addressable RGB LEDs in a rectangle underneath a Jetson Nano to give it a swank gaming-PC aesthetic.
 Designed for UCSD's ECE148 final project by Team 1, SP21.
 
-## TODO Pictures
+<img width=200 src="media/pcb_solder_prog.jpg"/>
+
+PCB Soldering is currently a WIP
 
 ## PCB Overview
 
