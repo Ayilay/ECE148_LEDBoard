@@ -12,6 +12,8 @@ PCB Soldering is currently a WIP
 This PCB was hastily designed and is not my finest work, due to the time constraint we faced and the
 fact that turnaround times for PCBs take a few days unless one pays a small fortune.
 
+The PCB was designed in [KiCad](https://www.kicad.org/).
+
 **Features:**
 - STM32 F103C8T6 Microcontroller
 - 10-pin SWD debug header
