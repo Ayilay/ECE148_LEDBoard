@@ -1017,7 +1017,7 @@ LOAD /usr/lib/gcc/arm-none-eabi/10.3.0/thumb/v7-m/nofp/crtn.o
  .igot.plt      0x000000002000000c        0x0 /usr/lib/gcc/arm-none-eabi/10.3.0/thumb/v7-m/nofp/crtbegin.o
                 0x000000002000000c                . = ALIGN (0x4)
 
-.bss            0x000000002000000c      0x17c load address 0x0000000008001b68
+.bss            0x000000002000000c      0x23c load address 0x0000000008001b68
                 0x000000002000000c                _sbss = .
                 0x000000002000000c                __bss_start__ = _sbss
  *(.bss)
@@ -1032,25 +1032,25 @@ LOAD /usr/lib/gcc/arm-none-eabi/10.3.0/thumb/v7-m/nofp/crtn.o
  .bss.hspi1     0x000000002000006c       0x58 build/main.o
                 0x000000002000006c                hspi1
  .bss.ws_buffer
-                0x00000000200000c4       0xc0 build/main.o
+                0x00000000200000c4      0x180 build/main.o
                 0x00000000200000c4                ws_buffer
- .bss.uwTick    0x0000000020000184        0x4 build/stm32f1xx_hal.o
-                0x0000000020000184                uwTick
+ .bss.uwTick    0x0000000020000244        0x4 build/stm32f1xx_hal.o
+                0x0000000020000244                uwTick
  *(COMMON)
-                0x0000000020000188                . = ALIGN (0x4)
-                0x0000000020000188                _ebss = .
-                0x0000000020000188                __bss_end__ = _ebss
+                0x0000000020000248                . = ALIGN (0x4)
+                0x0000000020000248                _ebss = .
+                0x0000000020000248                __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x0000000020000188      0x600 load address 0x0000000008001b68
-                0x0000000020000188                . = ALIGN (0x8)
+                0x0000000020000248      0x600 load address 0x0000000008001b68
+                0x0000000020000248                . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
                 [!provide]                        PROVIDE (_end = .)
-                0x0000000020000388                . = (. + _Min_Heap_Size)
- *fill*         0x0000000020000188      0x200 
-                0x0000000020000788                . = (. + _Min_Stack_Size)
- *fill*         0x0000000020000388      0x400 
-                0x0000000020000788                . = ALIGN (0x8)
+                0x0000000020000448                . = (. + _Min_Heap_Size)
+ *fill*         0x0000000020000248      0x200 
+                0x0000000020000848                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000020000448      0x400 
+                0x0000000020000848                . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -1098,18 +1098,18 @@ LOAD /usr/lib/gcc/arm-none-eabi/10.3.0/../../../../arm-none-eabi/lib/thumb/v7-m/
 LOAD /usr/lib/gcc/arm-none-eabi/10.3.0/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/libm.a
 LOAD /usr/lib/gcc/arm-none-eabi/10.3.0/thumb/v7-m/nofp/libgcc.a
 
-.debug_info     0x0000000000000000     0x731c
- .debug_info    0x0000000000000000     0x12b7 build/main.o
- .debug_info    0x00000000000012b7      0x417 build/stm32f1xx_it.o
- .debug_info    0x00000000000016ce      0x9ef build/stm32f1xx_hal_msp.o
- .debug_info    0x00000000000020bd     0x1ecf build/stm32f1xx_hal_spi.o
- .debug_info    0x0000000000003f8c      0x855 build/stm32f1xx_hal.o
- .debug_info    0x00000000000047e1      0xaec build/stm32f1xx_hal_rcc.o
- .debug_info    0x00000000000052cd      0x6d7 build/stm32f1xx_hal_gpio.o
- .debug_info    0x00000000000059a4      0x8bb build/stm32f1xx_hal_dma.o
- .debug_info    0x000000000000625f      0xe2d build/stm32f1xx_hal_cortex.o
- .debug_info    0x000000000000708c      0x26e build/system_stm32f1xx.o
- .debug_info    0x00000000000072fa       0x22 build/startup_stm32f103xb.o
+.debug_info     0x0000000000000000     0x731b
+ .debug_info    0x0000000000000000     0x12b6 build/main.o
+ .debug_info    0x00000000000012b6      0x417 build/stm32f1xx_it.o
+ .debug_info    0x00000000000016cd      0x9ef build/stm32f1xx_hal_msp.o
+ .debug_info    0x00000000000020bc     0x1ecf build/stm32f1xx_hal_spi.o
+ .debug_info    0x0000000000003f8b      0x855 build/stm32f1xx_hal.o
+ .debug_info    0x00000000000047e0      0xaec build/stm32f1xx_hal_rcc.o
+ .debug_info    0x00000000000052cc      0x6d7 build/stm32f1xx_hal_gpio.o
+ .debug_info    0x00000000000059a3      0x8bb build/stm32f1xx_hal_dma.o
+ .debug_info    0x000000000000625e      0xe2d build/stm32f1xx_hal_cortex.o
+ .debug_info    0x000000000000708b      0x26e build/system_stm32f1xx.o
+ .debug_info    0x00000000000072f9       0x22 build/startup_stm32f103xb.o
 
 .debug_abbrev   0x0000000000000000     0x162b
  .debug_abbrev  0x0000000000000000      0x2c6 build/main.o

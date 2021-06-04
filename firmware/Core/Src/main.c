@@ -59,7 +59,7 @@ static void MX_SPI1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define LED_NO    16
+#define LED_NO    32
 #define LED_BUFFER_LENGTH (LED_NO*12)
 
 const uint8_t leddata[256*4] = { // size = 256 * 3

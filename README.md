@@ -26,7 +26,7 @@ The PCB was designed in [KiCad](https://www.kicad.org/).
 
 I mention these not to roast myself (well kinda), but as a disclaimer to those looking at my design 
 as reference for theirs. As I mentioned, I was on a time crunch so I couldn't afford the time to make this
-an good-quality PCB. The following features should be included in a good design:
+a good-quality PCB. The following features should be included in a good design:
 - Reset Pushbutton
 - Generic I/O Breakouts
 - Generic Button/LED for testing
