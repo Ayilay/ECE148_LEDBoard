@@ -39,6 +39,7 @@
 /* USER CODE BEGIN PM */
 void doPattern1();
 void doPattern2();
+void doPattern3();
 
 /* USER CODE END PM */
 
@@ -341,19 +342,19 @@ void generate_ws_buffer(uint8_t RData, uint8_t GData, uint8_t BData, int16_t led
   int offset = led_no * 12;
   encode_byte( GData, offset );
   encode_byte( RData, offset+4 );
-  encode_byte( BData, offset+8 );   
+  encode_byte( BData, offset+8 );
 }
 
 void Send_2812(void)
-{   
-  HAL_SPI_Transmit_DMA(&hspi1, ws_buffer, LED_BUFFER_LENGTH); 
+{
+  HAL_SPI_Transmit_DMA(&hspi1, ws_buffer, LED_BUFFER_LENGTH);
 
   // LMAO this defeats the point of DMA?
   while(__HAL_SPI_GET_FLAG(&hspi1, SPI_FLAG_BSY ));
-} 
+}
 
 void setAllPixelColor(uint8_t r, uint8_t g, uint8_t b)
-{ 
+{
   int i;
   for(i=0;i< LED_NO;i++) {
     generate_ws_buffer( r, g, b, i );
@@ -362,7 +363,7 @@ void setAllPixelColor(uint8_t r, uint8_t g, uint8_t b)
 }
 
 void setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
-{	 
+{
   generate_ws_buffer( r, g, b, n );
   Send_2812();
 }
@@ -417,11 +418,10 @@ int main(void)
   initLEDMOSI();
   while (1)
   {
-    int8_t i;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    doPattern2();
+    doPattern3();
 
   }
   /* USER CODE END 3 */
@@ -593,7 +593,7 @@ void doPattern2() {
   static uint16_t ledChase = 0;
 
   for ( int i = 0; i < LED_NO; i++) {
-    generate_ws_buffer( 0, 30, 0, i );
+    generate_ws_buffer(10, 30, 0, i );
   }
   generate_ws_buffer( 60, 30,  0, ledChase );
   generate_ws_buffer( 60,  0,  0, (ledChase +   (LED_NO/4)) % LED_NO);
@@ -601,6 +601,24 @@ void doPattern2() {
   generate_ws_buffer( 60,  0,  0, (ledChase + 3*(LED_NO/4)) % LED_NO);
 
   ledChase = (ledChase + 1) % LED_NO;
+  Send_2812();
+  HAL_Delay(LED_DELAY);
+}
+
+void doPattern3() {
+  static uint16_t ledChase = 0;
+
+  #define lin1_offset ( 6)
+  #define lin2_offset (24)
+  #define SIDE_LEN    (6)
+
+  for ( int i = 0; i < LED_NO; i++) {
+    generate_ws_buffer(10, 30, 0, i );
+  }
+  generate_ws_buffer( 60, 30,  0,  ledChase + lin1_offset );
+  generate_ws_buffer( 60, 30,  0, -ledChase + lin2_offset );
+
+  ledChase = (ledChase + 1) % SIDE_LEN;
   Send_2812();
   HAL_Delay(LED_DELAY);
 }
