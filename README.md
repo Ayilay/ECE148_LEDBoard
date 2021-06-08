@@ -1,7 +1,7 @@
 # ECE148 LED Board
 
 A PCB that arranges WS2812b individually addressable RGB LEDs in a rectangle underneath a Jetson Nano to give it a swank gaming-PC aesthetic.
-Designed for UCSD's ECE148 final project by Team 1, SP21.
+Designed for [UCSD's ECE148 final project by Team 1, SP21](https://guitar.ucsd.edu/maeece148/index.php/2021SpringTeam1).
 
 <img width=400 src="media/led_board_demo.gif"/>
 
