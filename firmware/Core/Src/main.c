@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -32,10 +32,13 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define LED_DELAY (1300 / LED_NO)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+void doPattern1();
+void doPattern2();
 
 /* USER CODE END PM */
 
@@ -59,7 +62,7 @@ static void MX_SPI1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define LED_NO    32
+#define LED_NO    24
 #define LED_BUFFER_LENGTH (LED_NO*12)
 
 const uint8_t leddata[256*4] = { // size = 256 * 3
@@ -348,14 +351,14 @@ void Send_2812(void)
   // LMAO this defeats the point of DMA?
   while(__HAL_SPI_GET_FLAG(&hspi1, SPI_FLAG_BSY ));
 } 
- 
+
 void setAllPixelColor(uint8_t r, uint8_t g, uint8_t b)
 { 
-   int i;
-   for(i=0;i< LED_NO;i++) {
-      generate_ws_buffer( r, g, b, i );
-   }
-   Send_2812();
+  int i;
+  for(i=0;i< LED_NO;i++) {
+    generate_ws_buffer( r, g, b, i );
+  }
+  Send_2812();
 }
 
 void setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
@@ -369,16 +372,16 @@ void setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
  */
 void initLEDMOSI(void)
 {
-   uint8_t buffer0[2] = { 0, 0 };
-   HAL_SPI_Transmit(&hspi1, buffer0, 1, 100 );
+  uint8_t buffer0[2] = { 0, 0 };
+  HAL_SPI_Transmit(&hspi1, buffer0, 1, 100 );
 }
 
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -418,40 +421,24 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    #define LED_DELAY (1000 / LED_NO)
-    setAllPixelColor( 0, 0, 0);
-    HAL_Delay(200);
-    // red
-    for ( i = 0; i < LED_NO; i++) {
-       setPixelColor( i, 20, 0, 0 );
-       HAL_Delay(LED_DELAY);
-    }
-    // green
-    for ( i = 0; i < LED_NO; i++) {
-       setPixelColor( i, 0, 20, 0 );
-       HAL_Delay(LED_DELAY);
-    }
-    // blue
-    for ( i = 0; i < LED_NO; i++) {
-       setPixelColor( i, 0, 0, 20 );
-       HAL_Delay(LED_DELAY);
-    }
+    doPattern2();
+
   }
   /* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -465,7 +452,7 @@ void SystemClock_Config(void)
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+    |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -478,10 +465,10 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief SPI1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_SPI1_Init(void)
 {
 
@@ -516,8 +503,8 @@ static void MX_SPI1_Init(void)
 }
 
 /**
-  * Enable DMA controller clock
-  */
+ * Enable DMA controller clock
+ */
 static void MX_DMA_Init(void)
 {
 
@@ -532,10 +519,10 @@ static void MX_DMA_Init(void)
 }
 
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -557,22 +544,22 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA0 PA1 PA2 PA3
-                           PA4 PA6 PA8 PA9
-                           PA10 PA11 PA12 PA15 */
+    PA4 PA6 PA8 PA9
+    PA10 PA11 PA12 PA15 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
-                          |GPIO_PIN_4|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_9
-                          |GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_15;
+    |GPIO_PIN_4|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_9
+    |GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB0 PB1 PB2 PB10
-                           PB11 PB12 PB13 PB14
-                           PB15 PB4 PB5 PB6
-                           PB7 PB8 PB9 */
+    PB11 PB12 PB13 PB14
+    PB15 PB4 PB5 PB6
+    PB7 PB8 PB9 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_10
-                          |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
-                          |GPIO_PIN_15|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
-                          |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+    |GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14
+    |GPIO_PIN_15|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6
+    |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
@@ -583,12 +570,47 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+void doPattern1() {
+  // red
+  int i;
+  for ( i = 0; i < LED_NO; i++) {
+    setPixelColor( i, 50, 0, 0 );
+    HAL_Delay(LED_DELAY);
+  }
+  // green
+  for ( i = 0; i < LED_NO; i++) {
+    setPixelColor( i, 0, 50, 0 );
+    HAL_Delay(LED_DELAY);
+  }
+  // blue
+  for ( i = 0; i < LED_NO; i++) {
+    setPixelColor( i, 0, 0, 50 );
+    HAL_Delay(LED_DELAY);
+  }
+}
+
+void doPattern2() {
+  static uint16_t ledChase = 0;
+
+  for ( int i = 0; i < LED_NO; i++) {
+    generate_ws_buffer( 0, 30, 0, i );
+  }
+  generate_ws_buffer( 60, 30,  0, ledChase );
+  generate_ws_buffer( 60,  0,  0, (ledChase +   (LED_NO/4)) % LED_NO);
+  generate_ws_buffer( 60, 30,  0, (ledChase + 2*(LED_NO/4)) % LED_NO);
+  generate_ws_buffer( 60,  0,  0, (ledChase + 3*(LED_NO/4)) % LED_NO);
+
+  ledChase = (ledChase + 1) % LED_NO;
+  Send_2812();
+  HAL_Delay(LED_DELAY);
+}
+
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -602,17 +624,17 @@ void Error_Handler(void)
 
 #ifdef  USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
