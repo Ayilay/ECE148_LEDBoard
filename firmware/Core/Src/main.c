@@ -32,7 +32,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LED_DELAY (1300 / LED_NO)
+#define LED_DELAY (1400 / LED_NO)
+//#define LED_DELAY (3000 / LED_NO)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -338,7 +339,7 @@ void encode_byte(uint8_t data, int16_t buffer_index) {
 void generate_ws_buffer(uint8_t RData, uint8_t GData, uint8_t BData, int16_t led_no) {
   //ws2812b
   //G--R--B
-  //MSB first	
+  //MSB first
   int offset = led_no * 12;
   encode_byte( GData, offset );
   encode_byte( RData, offset+4 );
@@ -605,22 +606,41 @@ void doPattern2() {
   HAL_Delay(LED_DELAY);
 }
 
+#define ABS(N) ((N<0)?(-N):(N))
+
 void doPattern3() {
-  static uint16_t ledChase = 0;
+  //uint16_t ledChase = 0;
 
   #define lin1_offset ( 6)
-  #define lin2_offset (24)
+  #define lin2_offset (23)
+  #define lin3_offset ( 2)
+  #define lin4_offset ( 5)
   #define SIDE_LEN    (6)
 
-  for ( int i = 0; i < LED_NO; i++) {
-    generate_ws_buffer(10, 30, 0, i );
-  }
-  generate_ws_buffer( 60, 30,  0,  ledChase + lin1_offset );
-  generate_ws_buffer( 60, 30,  0, -ledChase + lin2_offset );
+  for (int ledChase = 0; ledChase < SIDE_LEN; ledChase ++) {
+    for ( int i = 0; i < LED_NO; i++) {
+      generate_ws_buffer( 0, 20, 40, i );
+    }
+    generate_ws_buffer(120, 60,  0,  ledChase + lin1_offset );
+    generate_ws_buffer(120, 60,  0, -ledChase + lin2_offset );
 
-  ledChase = (ledChase + 1) % SIDE_LEN;
-  Send_2812();
-  HAL_Delay(LED_DELAY);
+    Send_2812();
+    HAL_Delay(LED_DELAY);
+  }
+  for (int ledChase = SIDE_LEN-1; ledChase >= 0; ledChase --) {
+    for ( int i = 0; i < LED_NO; i++) {
+      generate_ws_buffer( 0, 20, 40, i );
+    }
+    generate_ws_buffer(120, 60,  0,  ledChase + lin1_offset );
+    generate_ws_buffer(120, 60,  0, -ledChase + lin2_offset );
+
+    Send_2812();
+    HAL_Delay(LED_DELAY);
+  }
+
+  //ledChase = (ledChase + 1) % SIDE_LEN;
+
+
 }
 
 /* USER CODE END 4 */
