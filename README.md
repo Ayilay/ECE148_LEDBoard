@@ -4,8 +4,8 @@ A PCB that arranges WS2812b individually addressable RGB LEDs in a rectangle und
 Designed for [UCSD's ECE148 final project by Team 1, SP21](https://guitar.ucsd.edu/maeece148/index.php/2021SpringTeam1).
 
 <p float="left">
-  <img width=400 src="media/led_board_demo.gif"/>
-  <img width=400 src="media/car_ledboard.gif"/>
+  <img height=300 src="media/led_board_demo.gif"/>
+  <img height=300 src="media/car_ledboard.gif"/>
 </p>
 
 ## PCB Overview
